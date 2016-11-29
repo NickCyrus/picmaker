@@ -7,7 +7,7 @@ document.addEventListener("deviceready", onDeviceReady, false);
     //
     function onDeviceReady() {
         alert('Ready !!');
-        jQuery('#imagen').draggable()
+        // jQuery('#imagen').draggable()
 
    
     }
