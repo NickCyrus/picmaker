@@ -1,15 +1,4 @@
-
-document.addEventListener("deviceready", onDeviceReady, false);
-
- 
-
-    // PhoneGap is ready
-    //
-    function onDeviceReady() {
+$(document).ready(function(){
         alert('Ready !!');
-        // jQuery('#imagen').draggable()
-
-   
-    }
-
- 
+        $('#imagen').draggable();
+})
