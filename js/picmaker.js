@@ -1,5 +1,15 @@
-$(document).ready(function(){
-    
-         $('#imagen').draggable()
-    
-})
+
+document.addEventListener("deviceready", onDeviceReady, false);
+
+ 
+
+    // PhoneGap is ready
+    //
+    function onDeviceReady() {
+        
+        $('#imagen').draggable()
+
+   
+    }
+
+ 
