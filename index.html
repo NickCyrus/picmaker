@@ -1,60 +1,83 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Ratchet template page</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>jQuery UI Draggable - Default functionality</title>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<style>
+#draggable {
+    height: 150px;
+    padding: 0.5em;
+    width: 150px;
+    border: 1px solid black;
+    background-color: #ddd;
+}
+</style>
+<link rel="stylesheet" href="css/style.css">
+<script>
+$(document).ready(function() {
+    
+     
+    
+    // are we running in native app or in a browser?
+    window.isphone = false;
+    if(document.URL.indexOf("http://") === -1 
+        && document.URL.indexOf("https://") === -1) {
+        window.isphone = true;
+    }
+    
+    alert(window.isphone);
+    
+    if( window.isphone ) {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    } else {
+        onDeviceReady();
+    }
+});
 
-    <!-- Sets initial viewport load and disables zooming  -->
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+function onDeviceReady() {
+    // phonegap ready
+    init();
+    $( "#draggable" ).draggable();
+    $("#msg").prepend("starting<br/>");
+}
 
-    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-      
-    <link href="css/picmaker.css" rel="stylesheet">
-      
-    <!-- Include the compiled Ratchet CSS -->
-    <link href="css/ratchet.css" rel="stylesheet">
-    <script src="js/jquery-3.1.1.js"></script>
-    <script src="js/jquery.ui.touch-punch.min.js"></script>
-      
-    <script src="js/jquery-ui.min.js"></script>
-    <!-- Include the compiled Ratchet JS -->
-    <script src="js/ratchet.min.js"></script>
-    <script src="js/picmaker.js"></script>
-  </head>
-  <body>
-
-    <!-- Make sure all your bars are the first things in your <body> -->
-    <header class="bar bar-nav hide-to-capture">
-      <h1 class="title">PickMaker</h1>
-    </header>
-
-    <div class="content">
-                <img src="images/logo.png" id="imagen" width="200" />
-    </div>
-        <nav class="bar bar-tab hide-to-capture">
-          <a class="tab-item active" href="#">
-            <span class="icon icon-home"></span>
-            <span class="tab-label">Home</span>
-          </a>
-          <a class="tab-item" href="#">
-            <span class="icon icon-person"></span>
-            <span class="tab-label">Profile</span>
-          </a>
-          <a class="tab-item" href="#">
-            <span class="icon icon-star-filled"></span>
-            <span class="tab-label">Favorites</span>
-          </a>
-          <a class="tab-item" href="#">
-            <span class="icon icon-search"></span>
-            <span class="tab-label">Search</span>
-          </a>
-          <a class="tab-item" href="#">
-            <span class="icon icon-gear"></span>
-            <span class="tab-label">Settings</span>
-          </a>
-        </nav>
-
-  </body>
+function init() {
+  document.addEventListener("touchstart", touchHandler, true);
+  document.addEventListener("touchmove", touchHandler, true);
+  document.addEventListener("touchend", touchHandler, true);
+  document.addEventListener("touchcancel", touchHandler, true);   
+}
+function touchHandler(event) {
+  var touches = event.changedTouches,
+  first = touches[0],
+  type = "";
+  switch(event.type)
+  {
+      case "touchstart": type = "mousedown";
+        $("#msg").prepend("touchstart<br/>");
+        break;
+      case "touchmove":  type="mousemove"; break;        
+      case "touchend":   type="mouseup"; break;
+      default: return;
+  }
+  var simulatedEvent = document.createEvent("MouseEvent");
+   simulatedEvent.initMouseEvent(type, true, true, window, 1,
+                      first.screenX, first.screenY,
+                      first.clientX, first.clientY, false,
+                      false, false, false, 0/*left*/, null);
+  first.target.dispatchEvent(simulatedEvent); 
+  event.preventDefault();
+}
+</script>
+</head>
+<body>
+<div id="draggable" class="ui-widget-content">
+    <p>Drag me around</p>
+</div>
+<div id="msg">
+</div>
+</body>
 </html>
